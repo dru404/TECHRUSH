@@ -1,17 +1,20 @@
 /*Targets every html elemtent on the page*/
-* { 
+* 
+{ 
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 /*Targets the body element*/
-body {
+body 
+{
   font-family: Arial, sans-serif;
 }
 
 /*Targets the header element*/
-header {
+header 
+{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,14 +29,16 @@ header {
 }
 
 /*targets the left and right part of the header*/
-.nav-left, .nav-right {
+.nav-left, .nav-right 
+{
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
 /*targets the anchor elements of the left and right header*/
-.nav-left a, .nav-right a {
+.nav-left a, .nav-right a 
+{
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -42,13 +47,15 @@ header {
 }
 
 /*hovering on the anchor elements of the left and right header*/
-.nav-left a:hover {
+.nav-left a:hover 
+{
   background-color: rgb(52, 73, 94);
   border-radius: 4px;
 }
 
 /*targeting the signup and login of the header*/
-.nav-right .btn {
+.nav-right .btn 
+{
   background-color: rgb(52, 152, 219);
   border: none;
   border-radius: 4px;
@@ -60,7 +67,8 @@ header {
 }
 
 /*hovering over the aignup and login button of the header*/
-.nav-right .btn:hover {
+.nav-right .btn:hover
+{
   background-color:rgb(41, 128, 185);
 }
 
@@ -71,13 +79,15 @@ header {
   width: 100%;
 } */
 
-.search-container {
+.search-container 
+{
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
-.search-container input[type="text"] {
+.search-container input[type="text"] 
+{
   width: 100%;
   max-width: 500px;
   padding: 8px 12px;

@@ -6,14 +6,14 @@ const strength = {
   1: "weak",
   2: "medium",
   3: "strong",
-  // 4: "very strong"
+  4: "very-strong"
 };
 
 const getIndicator = (password, strengthValue) => {
   strengthValue.upper = /[A-Z]/.test(password);
   strengthValue.lower = /[a-z]/.test(password);
   strengthValue.numbers = /\d/.test(password);
-  // strengthValue.specialchar = /[@#$]/.test(password);
+  strengthValue.specialchar = /[@#$]/.test(password);
 
   let strengthIndicator = 0;
 
