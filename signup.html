@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="signup.css" />
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <header>
+      <div class="nav-left">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+
+      <div class="search-container">
+        <input type="text" placeholder="Search for Item">
+        <img src="search-icon.svg">
+      </div>
+
+      <div class="nav-right">
+        <a href="signup.html" class="btn">Sign Up</a>
+        <a href="login.html" class="btn">Login</a>
+      </div>
+    </header>
+    <div class="main">
+    <div class="card">
+      <h2>Sign Up</h2>
+      <h3>Enter your credentials</h3>
+      <form class="form">
+        <input
+          class="control"
+          placeholder="Enter your Email"
+          oninput="handleChange()"
+        />
+        <input
+          class="control"
+          id="password"
+          type="password"
+          placeholder="Password"
+          oninput="handleChange()"
+        />
+        <div id="bars">
+          <div></div>
+        </div>
+        <div class="strength" id="strength"></div>
+        <button class="control">
+          Sign Up
+        </button>
+      </form>
+    </div>
+    </div>
+    <script type="text/javascript" src="signup.js"></script>
+  </body>
+</html>
