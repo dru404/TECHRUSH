@@ -43,24 +43,7 @@ app.get("/products", (req, res) => {
   res.render("products.ejs");
 });
 
-app.get("/addtocart", async (req, res) => {
-  const productName = req.query.productName;
-  const price = req.query.price;
-  const quantity = req.query.quantity;
-  try {
-    const result = await db.query( "SELECT * FROM products WHERE name = $1 AND stock = $2",[productName,quantity] );
 
-    if (result.rows.length > 0) {
-      const p = result.rows[0]; 
-      res.render("cart.ejs", { p });
-    } else {
-      res.send("Product not found.");
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Database error");
-  }
-});
 
 
 app.post("/register", async (req, res) => {
@@ -112,84 +95,72 @@ app.post("/login", async (req, res) => {
  
 });
 
-app.post("/addtocart",(req,res)=>{
+// Add product to cart (TEMP: still storing in 'products' table for now)
+app.post("/addtocart", async (req, res) => {
   const productName = req.body.productName;
   const price = req.body.price;
   const quantity = req.body.quantity;
-  console.log(quantity);
-  console.log(price);
-  console.log(productName);
-  db.query("INSERT INTO products(name,price,stock) VALUES($1,$2,$3)",[productName,price,quantity]);
-  res.render("products.ejs");
-})
 
+  try {
+    await db.query(
+      "INSERT INTO products(name, price, stock) VALUES($1, $2, $3)",
+      [productName, price, quantity]
+    );
+    res.redirect("/cart");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error adding to cart.");
+  }
+});
 
+app.get("/cart", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM products ORDER BY id DESC LIMIT 1");
 
-/*
-app.post("/addtocart", async (req, res) => {
-  const { productName, price, quantity } = req.body;
-  const user = req.session.user;
+    if (result.rows.length > 0) {
+      const p = result.rows[0];
+      res.render("cart.ejs", { p });
+    } else {
+      res.send("Your cart is empty.");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading cart.");
+  }
+});
 
-  if (!user) return res.redirect("/login");
+app.post("/buy", async (req, res) => {
+  const { productId, quantity } = req.body;
+  const userId = 1; // change this based on session/login
 
-  const product = await db.query("SELECT * FROM products WHERE name=$1", [productName]);
+  try {
+    // Get current stock
+    const productResult = await db.query("SELECT stock FROM products WHERE id = $1", [productId]);
+    const currentStock = productResult.rows[0].stock;
 
-  if (product.rows.length > 0) {
-    const productId = product.rows[0].id;
+    if (currentStock < quantity) {
+      return res.json({ success: false, message: "Not enough stock." });
+    }
 
-    const existing = await db.query(
-      "SELECT * FROM cart WHERE user_email=$1 AND product_id=$2",
-      [user, productId]
+    // Insert into cart_items
+    await db.query(
+      "INSERT INTO cart_items (user_id, product_id, quantity) VALUES ($1, $2, $3)",
+      [userId, productId, quantity]
     );
 
-    if (existing.rows.length > 0) {
-      await db.query(
-        "UPDATE cart SET quantity = quantity + $1 WHERE user_email=$2 AND product_id=$3",
-        [quantity, user, productId]
-      );
-    } else {
-      await db.query(
-        "INSERT INTO cart (user_email, product_id, quantity) VALUES ($1, $2, $3)",
-        [user, productId, quantity]
-      );
-    }
-    res.redirect("/cart");
+    // Reduce stock
+    const newStock = currentStock - quantity;
+    await db.query("UPDATE products SET stock = $1 WHERE id = $2", [newStock, productId]);
+
+    res.json({ success: true, newStock }); // send updated stock
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false, message: "Server error" });
   }
 });
 
-// View cart
-app.get("/cart", async (req, res) => {
-  const user = req.session.user;
-  if (!user) return res.redirect("/login");
-
-  const cart = await db.query(`
-    SELECT p.name, p.price, c.quantity, (p.price * c.quantity) AS total
-    FROM cart c JOIN products p ON c.product_id = p.id
-    WHERE c.user_email = $1
-  `, [user]);
-
-  res.render("cart.ejs", { cart: cart.rows });
-});
-
-// Buy items
-app.post("/buy", async (req, res) => {
-  const user = req.session.user;
-  if (!user) return res.redirect("/login");
-
-  const items = await db.query("SELECT * FROM cart WHERE user_email=$1", [user]);
-
-  for (let item of items.rows) {
-    await db.query("UPDATE products SET stock = stock - $1 WHERE id = $2", [item.quantity, item.product_id]);
-  }
-
-  await db.query("DELETE FROM cart WHERE user_email=$1", [user]);
-  res.send("Purchase successful. Cart cleared.");
-});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-*/
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+

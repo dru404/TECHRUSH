@@ -19,17 +19,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><%= p.name %></td>
-        <td><%= p.price %></td>
-        <td><%= p.stock %></td>
-        <td><%= p.price %></td>
+ <td><%= p.name %></td>
+<td><%= p.price %></td> 
+<td><%= p.stock %></td>
+<td><%= p.price * p.stock %></td>
+
       </tr>
     </tbody>
   </table>
+<form class="buy-form" data-product-id="<%= product.id %>">
+  <input type="number" name="quantity" value="1" min="1" max="<%= product.stock %>">
+  <button type="submit">Buy</button>
+</form>
 
-  <form action="/buy" method="POST">
-    <input type="hidden" name="productId" value="<%= p.id %>">
-    <button type="submit" class="buy-button">Buy Now</button>
-  </form>
 </body>
 </html>

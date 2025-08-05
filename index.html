@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online Shopping</title>
+  <link rel="stylesheet" href="public/index.css">
+  <link rel="stylesheet" href="public/index-main.css">
+  <link rel="stylesheet" href="public/products.css">
+</head>
+<body>
+
+  <header>
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" placeholder="Search for Item">
+      <img src="search-icon.svg">
+    </div>
+
+    <div class="nav-right">
+      <a href="signup.html" class="btn">Sign Up</a>
+      <a href="login.html" class="btn">Login</a>
+    </div>
+  </header>
+
+  <div class="product-main-body main">
+    <div class="category" onclick="show(showFruits(), null)">Organic Fruits</div>
+    <div class="category" onclick="show(null, showVeges())">Organic Veges</div>
+  </div>
+
+  <script src="fruits.js"></script> 
+  <script src="vegetable.js"></script>
+  <script src="combine.js"></script>
+  <script src="products.js"></script>
+</body>
+</html>
