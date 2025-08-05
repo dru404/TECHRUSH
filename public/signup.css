@@ -1,16 +1,12 @@
-body 
-{
-  /* display: grid; */
-  /* place-items: center; */
+body {
   margin: 0;
-  height: 100vh; /*100% of viewport height*/
+  padding-top: 90px; /* same as header height */
+  overflow-x: hidden;  /* prevent horizontal scroll */
+  min-height: 100vh;
   background-color: black;
-  /* background-image: url("bg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: rgb(255 255 255 / 50%); */
-  padding-top: 90px;
 }
+
+
 
 .main
 {
