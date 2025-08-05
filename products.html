@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Online Shopping</title>
+  <title>Products</title>
   <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="index-main.css">
   <link rel="stylesheet" href="products.css">
 </head>
 <body>
@@ -28,14 +27,17 @@
     </div>
   </header>
 
-  <div class="product-main-body main">
-    <div class="category" onclick="show(showFruits(), null)">Organic Fruits</div>
-    <div class="category" onclick="show(null, showVeges())">Organic Veges</div>
+  <div>
+    <div class="product-main-body">
+    </div>
   </div>
 
-  <script src="scripts/fruits.js"></script> 
-  <script src="scripts/vegetable.js"></script>
-  <script src="scripts/combine.js"></script>
   <script src="products.js"></script>
+  <script src="scripts/vegetable.js"></script>
+  <script src="scripts/fruits.js"></script>
+  <script src="scripts/combine.js"></script>
+  <script>
+    show(showFruits(), showVeges());
+  </script>
 </body>
 </html>
