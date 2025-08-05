@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online Shopping</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="products.css">
+
+</head>
+<body>
+
+  <header>
+    <div class="nav-left">
+      <a href="/index">Home</a>
+      <a href="/products">Products</a>
+      <a href="/faq">FAQ</a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" placeholder="Search for Item">
+      <img src="search-icon.svg">
+    </div>
+
+    <a href="/addtocart" class="cart-button" title="View Cart">
+      <img src="shoppingcart.svg" alt="Cart">
+    </a>
+  </header>
+
+  <form action="/addtocart" method="POST">
+    <div class="product-main-body">
+      <div class="stock-container">
+        <div>Stock: </div>
+        <div class="stock">7</div>
+      </div>
+      <div>
+        <img src="apple.svg" class="product-image">
+      </div>
+      <div class="product-name">Apples</div>
+      <div class="product-price-and-quantity">
+        <div class="product-price-container">
+          <div>Rs. </div>
+          <div class="product-price" id="priceDisplay">100</div>
+          </div>
+        <div class="product-quantity">
+          <button type="button" class="decrease" name="decrease">-</button>
+          <div class="quantity" id="quantity">5</div>
+          <button type="button" class="increase" name="increase">+</button>
+        </div>
+      </div>
+
+      <input type="hidden" name="productName" value="Apples">
+      <input type="hidden" name="price" id="priceInput" value="100">
+      <input type="hidden" name="quantity" id="quantityInput" value="5">
+
+      <div class="add-to-cart-button">
+        <button type="submit" name="addtocart">Add to Cart</button>
+      </div>
+    </div>
+  </form>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const stock = parseInt(document.querySelector(".stock").innerText);
+
+    const basePrice = 100; 
+    const quantityDisplay = document.getElementById("quantity");
+    const quantityInput = document.getElementById("quantityInput");
+    const priceDisplay = document.getElementById("priceDisplay");
+    const priceInput = document.getElementById("priceInput");
+
+    const increaseBtn = document.querySelector(".increase");
+    const decreaseBtn = document.querySelector(".decrease");
+
+    function updateTotal() {
+      const quantity = parseInt(quantityDisplay.innerText);
+      const totalPrice = quantity * basePrice;
+      priceDisplay.innerText = totalPrice;
+      priceInput.value = totalPrice;
+    }
+
+    increaseBtn.addEventListener("click", () => {
+      let quantity = parseInt(quantityDisplay.innerText);
+      if (quantity < stock) {
+        quantity++;
+        quantityDisplay.innerText = quantity;
+        quantityInput.value = quantity;
+        updateTotal();
+      } else {
+        alert(`Only ${stock} items available in stock.`);
+      }
+    });
+
+    decreaseBtn.addEventListener("click", () => {
+      let quantity = parseInt(quantityDisplay.innerText);
+      if (quantity > 1) {
+        quantity--;
+        quantityDisplay.innerText = quantity;
+        quantityInput.value = quantity;
+        updateTotal();
+      }
+    });
+    updateTotal();
+  });
+</script>
+
+
+
+</body>
+</html>

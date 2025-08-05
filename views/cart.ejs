@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+  <h2>Your Cart</h2>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price (₹)</th>
+        <th>Quantity</th>
+        <th>Total (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.price %></td>
+        <td><%= p.stock %></td>
+        <td><%= p.price %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form action="/buy" method="POST">
+    <input type="hidden" name="productId" value="<%= p.id %>">
+    <button type="submit" class="buy-button">Buy Now</button>
+  </form>
+</body>
+</html>

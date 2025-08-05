@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/signup.css" />
+    <link rel="stylesheet" href="/index.css">
+    
+  </head>
+  <body>
+    <header>
+      <div class="nav-right">
+        <a href="/signup" class="btn">Sign Up</a>
+        <a href="/login" class="btn">Login</a>
+      </div>
+    </header>
+    <div class="main">
+    <div class="card">
+      <h2>Login</h2>
+      <h3>Enter your credentials</h3>
+      <form action="/login" method="POST">
+        <input type="email" placeholder="Email" class="control" name="username">
+        <input type="password"  placeholder="Password" class="control" name="password">
+        <button type="submit" class="control btn btn-dark">Login</button>
+      </form>
+      <% if (error) { %>
+      <p style="color: red;"><%= error %></p>
+      <% } %>
+
+    </div>
+    </div>
+  </body>
+</html>
