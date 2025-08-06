@@ -133,7 +133,7 @@ app.get("/cart", async (req, res) => {
 app.post("/buy", async (req, res) => {
   try {
     await db.query("DELETE FROM products");
-    res.send("Purchase successful! All products cleared.");
+    res.send("Purchase successful! Thank you for using our Website.<br>--Team CodeCanvas");
   } catch (err) {
     console.error(err);
     res.status(500).send("Error completing purchase.");
