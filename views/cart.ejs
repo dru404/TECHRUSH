@@ -6,22 +6,21 @@
   <link rel="stylesheet" href="cart.css">
 </head>
 <body>
-      <header>
+  <header>
     <div class="nav-left">
       <a href="/index">Home</a>
       <a href="/products">Products</a>
       <a href="/faq">FAQ</a>
     </div>
-
     <div class="search-container">
       <input type="text" placeholder="Search for Item">
       <img src="search-icon.svg">
     </div>
-
     <a href="/cart" class="cart-button" title="View Cart">
       <img src="shoppingcart.svg" alt="Cart">
     </a>
   </header>
+
   <h2>Your Cart</h2>
 
   <% if (p.length > 0) { %>
@@ -32,6 +31,7 @@
           <th>Price (₹)</th>
           <th>Quantity</th>
           <th>Total (₹)</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -39,15 +39,24 @@
           let grandTotal = 0;
           let totalQuantity = 0;
           p.forEach(product => {
-            const total = product.price * product.stock;
+            const total = product.price * product.quantity;
             grandTotal += total;
-            totalQuantity += Number(product.stock);
+            totalQuantity += product.quantity;
         %>
           <tr>
             <td><%= product.name %></td>
             <td>₹<%= product.price %></td>
-            <td><%= product.stock %></td>
+            <td><%= product.quantity %></td>
             <td>₹<%= total %></td>
+            <td>
+            <form action="/buy" method="POST">
+              <input type="hidden" name="productId" value="<%= product.product_id %>">
+              <input type="hidden" name="productName" value="<%= product.name %>">
+              <input type="hidden" name="quantity" value="<%= product.quantity %>">
+              <button type="submit">Buy Now</button>
+            </form>
+
+            </td>
           </tr>
         <% }) %>
 
@@ -55,14 +64,10 @@
           <td colspan="2">Grand Total</td>
           <td><%= totalQuantity %></td>
           <td>₹<%= grandTotal %></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
-
-    <form action="/buy" method="POST">
-      <button class="buy-button" type="submit">Buy Now</button>
-    </form>
-  
   <% } else { %>
     <div class="empty">Your cart is empty.</div>
   <% } %>

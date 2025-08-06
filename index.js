@@ -1,18 +1,26 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import session from "express-session";
+
 
 const app = express();
 const port = 3000;
+app.use(session({
+  secret: 'SecretSessionsKey',
+  resave: false,
+  saveUninitialized: false
+}));
 
-/*const db = new pg.Client('postgresql://neondb_owner:npg_kwA5DtLVfZn6@ep-small-bush-a1ctfpi5-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require');*/
-const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "secrets",
-  password: "May07tanDb#",
-  port: 5432,
-});
+
+const db = new pg.Client('postgresql://neondb_owner:npg_kwA5DtLVfZn6@ep-small-bush-a1ctfpi5-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require');
+// const db = new pg.Client({
+//   user: "postgres",
+//   host: "localhost",
+//   database: "secrets",
+//   password: "May07tanDb#",
+//   port: 5432,
+// });
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -82,6 +90,7 @@ app.post("/login", async (req, res) => {
         const user = checkResult.rows[0];
         const checkpassword = user.password;
         if(password===checkpassword){
+          req.session.userId = user.id;
           res.render("index.ejs");
         }else{
          res.render("login.ejs", { error: "Incorrect Password" });
@@ -98,14 +107,23 @@ app.post("/login", async (req, res) => {
 
 app.post("/addtocart", async (req, res) => {
   const productName = req.body.productName;
-  const price = req.body.price;
-  const quantity = req.body.quantity;
+  const price = Number(req.body.price);
+  const quantity = Number(req.body.quantity);
 
+  const user_id = req.session.userId;
+  const productResult = await db.query("SELECT id FROM products WHERE name = $1", [productName]);
+  console.log(productResult);
+  const product_id = productResult.rows[0].id;
   try {
-    await db.query(
-      "INSERT INTO products(name, price, stock) VALUES($1, $2, $3)",
-      [productName, price, quantity]
-    );
+    const checkItemEntry = await db.query("SELECT * FROM cart WHERE user_id = $1 AND product_id = $2" , [user_id,product_id])
+    if(checkItemEntry.rows.length>0) {
+      await db.query("UPDATE cart SET quantity = quantity + $1 WHERE user_id = $2 AND product_id = $3" , [quantity , user_id , product_id]);
+      
+    }
+    else {
+      await db.query("INSERT INTO cart (user_id , product_id , quantity) VALUES ($1 , $2 , $3)" , [user_id , product_id , quantity]); //add price later
+    }
+
     res.redirect("/products");
   } catch (err) {
     console.error(err);
@@ -115,7 +133,15 @@ app.post("/addtocart", async (req, res) => {
 
 app.get("/cart", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM products ORDER BY id DESC LIMIT 10");
+    //const result = await db.query("SELECT * FROM products ORDER BY id DESC LIMIT 10");
+    const user_id = req.session.userId;
+    const result = await db.query(`
+  SELECT products.id AS product_id, products.name, products.price, cart.quantity 
+  FROM cart 
+  INNER JOIN products ON cart.product_id = products.id 
+  WHERE cart.user_id = $1
+`, [user_id]);
+
 
     if (result.rows.length > 0) {
       const p = result.rows;
@@ -131,13 +157,24 @@ app.get("/cart", async (req, res) => {
 
 
 app.post("/buy", async (req, res) => {
+  const user_id = req.session.userId;
+  //const productName = req.body.productName;
+  const quantity = Number(req.body.quantity);
+  const productId = req.body.productId;
+
+  await db.query("BEGIN");
+
   try {
-    await db.query("DELETE FROM products");
-    res.send("Purchase successful! Thank you for using our Website.<br>--Team CodeCanvas");
+    await db.query("DELETE FROM cart WHERE user_id = $1 AND product_id = $2" , [user_id , productId]);
+    await db.query("UPDATE products SET stock = stock - $1 WHERE id = $2" , [quantity , productId]);
+    //res.send("Purchase successful! Thank you for using our Website.<br>--Team CodeCanvas");
+    res.redirect("/cart");
   } catch (err) {
     console.error(err);
     res.status(500).send("Error completing purchase.");
   }
+
+  await db.query("COMMIT");
 });
 
 
