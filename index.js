@@ -115,7 +115,9 @@ app.post("/addtocart", async (req, res) => {
 
 app.get("/cart", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM products ORDER BY id DESC LIMIT 10");
+    const result = await db.query(
+      "SELECT * FROM products WHERE is_used = FALSE ORDER BY id DESC LIMIT 10"
+    );
 
     if (result.rows.length > 0) {
       const p = result.rows;
@@ -130,15 +132,17 @@ app.get("/cart", async (req, res) => {
 });
 
 
+
 app.post("/buy", async (req, res) => {
   try {
-    await db.query("DELETE FROM products");
+    await db.query("UPDATE products SET is_used = TRUE WHERE is_used = FALSE");
     res.send("Purchase successful! Thank you for using our Website.<br>--Team CodeCanvas");
   } catch (err) {
     console.error(err);
     res.status(500).send("Error completing purchase.");
   }
 });
+
 
 
 
