@@ -16,7 +16,7 @@
     </div>
 
     <div class="search-container">
-      <input type="text" placeholder="Search for Item">
+      <input type="text" placeholder="Search for Item" id="searchInput">
       <img src="search-icon.svg">
     </div>
 
@@ -29,8 +29,9 @@
 <div class="products-grid">
 
   <!-- Apples -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="apples">
+    <div class="product-main-body" id="apples" data-name="Apples">
       <div class="stock-container">
         <div>Stock: <span class="stock">7</span></div>
       </div>
@@ -56,38 +57,42 @@
       </div>
     </div>
   </form>
-
-  <!-- Oranges -->
+</div>
+  <!-- mangoes -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="oranges">
+    <div class="product-main-body" id="mangoes" data-name="Mangoes">
       <div class="stock-container">
         <div>Stock: <span class="stock">10</span></div>
       </div>
       <div>
-        <img src="/images/oranges.svg" class="product-image" alt="Oranges">
+        <img src="/images/mangoes.svg" class="product-image" alt="mangoes">
       </div>
-      <div class="product-name">Oranges</div>
+      <div class="product-name">Mangoes
+      </div>
       <div class="product-price-and-quantity">
         <div class="product-price-container">
-          <div>Rs. <span class="product-price" id="priceDisplay-oranges">80</span></div>
+          <div>Rs. <span class="product-price" id="priceDisplay-mangoes">80</span></div>
         </div>
         <div class="product-quantity">
-          <button type="button" class="decrease" data-id="oranges">-</button>
-          <span class="quantity" id="quantity-oranges">1</span>
-          <button type="button" class="increase" data-id="oranges">+</button>
+          <button type="button" class="decrease" data-id="mangoes">-</button>
+          <span class="quantity" id="quantity-mangoes">1</span>
+          <button type="button" class="increase" data-id="mangoes">+</button>
         </div>
       </div>
-      <input type="hidden" name="productName" value="Oranges">
-      <input type="hidden" name="price" id="priceInput-oranges" value="80">
-      <input type="hidden" name="quantity" id="quantityInput-oranges" value="1">
+      <input type="hidden" name="productName" value="Mangoes">
+      <input type="hidden" name="price" id="priceInput-mangoes" value="80">
+      <input type="hidden" name="quantity" id="quantityInput-mangoes" value="1">
       <div class="add-to-cart-button">
         <button type="submit" name="addtocart">Add to Cart</button>
       </div>
     </div>
   </form>
+</div>
 
+<div class="product-item">
 <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="pomegranate">
+    <div class="product-main-body" id="pomegranate" data-name="Pomegranate">
       <div class="stock-container"><div>Stock: <span class="stock">5</span></div></div>
       <div><img src="/images/pomegranate.svg" class="product-image" alt="Pomegranate"></div>
       <div class="product-name">Pomegranate</div>
@@ -105,31 +110,12 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
-  <!-- Mangoes -->
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="mangoes">
-      <div class="stock-container"><div>Stock: <span class="stock">8</span></div></div>
-      <div><img src="/images/mangoes.svg" class="product-image" alt="Mangoes"></div>
-      <div class="product-name">Mangoes</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-mangoes">90</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="mangoes">-</button>
-          <span class="quantity" id="quantity-mangoes">1</span>
-          <button type="button" class="increase" data-id="mangoes">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Mangoes">
-      <input type="hidden" name="price" id="priceInput-mangoes" value="90">
-      <input type="hidden" name="quantity" id="quantityInput-mangoes" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
+  </div>
 
   <!-- Bananas -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="bananas">
+    <div class="product-main-body" id="bananas" data-name="Bananas">
       <div class="stock-container"><div>Stock: <span class="stock">12</span></div></div>
       <div><img src="/images/bananas.svg" class="product-image" alt="Bananas"></div>
       <div class="product-name">Bananas</div>
@@ -147,10 +133,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
   <!-- Grapes -->
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="grapes">
+   <div class="product-item">
+  <form action="/addtocart" method="POST" data-name="Grapes">
+    <div class="product-main-body" id="grapes" data-name="Grapes">
       <div class="stock-container"><div>Stock: <span class="stock">9</span></div></div>
       <div><img src="/images/grapes.svg" class="product-image" alt="Grapes"></div>
       <div class="product-name">Grapes</div>
@@ -168,10 +155,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
   <!-- Pineapple -->
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="pineapple">
+   <div class="product-item>
+  <form action="/addtocart" method="POST" data-name="Pineapple">
+    <div class="product-main-body" id="pineapple" data-name="Pineapples">
       <div class="stock-container"><div>Stock: <span class="stock">4</span></div></div>
       <div><img src="/images/pineapple.svg" class="product-image" alt="Pineapple"></div>
       <div class="product-name">Pineapple</div>
@@ -189,10 +177,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
   <!-- Papaya -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="papaya">
+    <div class="product-main-body" id="papaya" data-name="Papaya">
       <div class="stock-container"><div>Stock: <span class="stock">6</span></div></div>
       <div><img src="/images/papaya.svg" class="product-image" alt="Papaya"></div>
       <div class="product-name">Papaya</div>
@@ -210,10 +199,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
   <!-- Strawberries -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="strawberries">
+    <div class="product-main-body" id="strawberries" data-name="Strawberries">
       <div class="stock-container"><div>Stock: <span class="stock">3</span></div></div>
       <div><img src="/images/strawberries.svg" class="product-image" alt="Strawberries"></div>
       <div class="product-name">Strawberries</div>
@@ -231,10 +221,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
   <!-- Blueberries -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="blueberries">
+    <div class="product-main-body" id="blueberries" data-name="Blueberries">
       <div class="stock-container"><div>Stock: <span class="stock">2</span></div></div>
       <div><img src="/images/blueberries.svg" class="product-image" alt="Blueberries"></div>
       <div class="product-name">Blueberries</div>
@@ -252,10 +243,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
   <!-- Watermelon -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="watermelon">
+    <div class="product-main-body" id="watermelon" data-name="Watermelon">
       <div class="stock-container"><div>Stock: <span class="stock">7</span></div></div>
       <div><img src="/images/watermelon.svg" class="product-image" alt="Watermelon"></div>
       <div class="product-name">Watermelon</div>
@@ -273,10 +265,11 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+   </div>
   <!-- Kiwi -->
+   <div class="product-item">
   <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="kiwi">
+    <div class="product-main-body" id="kiwi" data-name="Kiwi">
       <div class="stock-container"><div>Stock: <span class="stock">5</span></div></div>
       <div><img src="/images/kiwi.svg" class="product-image" alt="Kiwi"></div>
       <div class="product-name">Kiwi</div>
@@ -294,7 +287,7 @@
       <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
     </div>
   </form>
-
+</div>
 </div>
 
 </div>
@@ -305,54 +298,72 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const products = document.querySelectorAll(".product-main-body");
+  document.addEventListener("DOMContentLoaded", () => {
+    const products = document.querySelectorAll(".product-main-body");
+
+    // 🔧 Search functionality
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase().trim();
 
       products.forEach(product => {
-        const id = product.id;
-        const stock = parseInt(product.querySelector(".stock").innerText);
-        const basePrice = parseInt(product.querySelector(`#priceDisplay-${id}`).innerText);
-
-        const quantityDisplay = document.getElementById(`quantity-${id}`);
-        const quantityInput = document.getElementById(`quantityInput-${id}`);
-        const priceDisplay = document.getElementById(`priceDisplay-${id}`);
-        const priceInput = document.getElementById(`priceInput-${id}`);
-
-        const increaseBtn = product.querySelector(".increase");
-        const decreaseBtn = product.querySelector(".decrease");
-
-        function updateTotal() {
-          const quantity = parseInt(quantityDisplay.innerText);
-          const totalPrice = basePrice;
-          priceDisplay.innerText = totalPrice;
-          priceInput.value = totalPrice;
+        const name = product.getAttribute("data-name").toLowerCase();
+        if (name.includes(query)) {
+          product.parentElement.style.display = "block";
+        } else {
+          product.parentElement.style.display = "none";
         }
-
-        increaseBtn.addEventListener("click", () => {
-          let quantity = parseInt(quantityDisplay.innerText);
-          if (quantity < stock) {
-            quantity++;
-            quantityDisplay.innerText = quantity;
-            quantityInput.value = quantity;
-            updateTotal();
-          } else {
-            alert(`Only ${stock} items available in stock.`);
-          }
-        });
-
-        decreaseBtn.addEventListener("click", () => {
-          let quantity = parseInt(quantityDisplay.innerText);
-          if (quantity > 1) {
-            quantity--;
-            quantityDisplay.innerText = quantity;
-            quantityInput.value = quantity;
-            updateTotal();
-          }
-        });
-
-        updateTotal();
       });
     });
-  </script>
+
+    // Quantity and price logic
+    products.forEach(product => {
+      const id = product.id;
+      const stock = parseInt(product.querySelector(".stock").innerText);
+      const basePrice = parseInt(product.querySelector(`#priceDisplay-${id}`).innerText);
+
+      const quantityDisplay = document.getElementById(`quantity-${id}`);
+      const quantityInput = document.getElementById(`quantityInput-${id}`);
+      const priceDisplay = document.getElementById(`priceDisplay-${id}`);
+      const priceInput = document.getElementById(`priceInput-${id}`);
+
+      const increaseBtn = product.querySelector(".increase");
+      const decreaseBtn = product.querySelector(".decrease");
+
+      function updateTotal() {
+        const quantity = parseInt(quantityDisplay.innerText);
+        const totalPrice = basePrice;
+        priceDisplay.innerText = totalPrice;
+        priceInput.value = totalPrice;
+      }
+
+      increaseBtn.addEventListener("click", () => {
+        let quantity = parseInt(quantityDisplay.innerText);
+        if (quantity < stock) {
+          quantity++;
+          quantityDisplay.innerText = quantity;
+          quantityInput.value = quantity;
+          updateTotal();
+        } else {
+          alert(`Only ${stock} items available in stock.`);
+        }
+      });
+
+      decreaseBtn.addEventListener("click", () => {
+        let quantity = parseInt(quantityDisplay.innerText);
+        if (quantity > 1) {
+          quantity--;
+          quantityDisplay.innerText = quantity;
+          quantityInput.value = quantity;
+          updateTotal();
+        }
+      });
+
+      updateTotal();
+    });
+  });
+</script>
+
 </body>
 </html>
