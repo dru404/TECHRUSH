@@ -95,7 +95,7 @@ app.post("/login", async (req, res) => {
  
 });
 
-// Add product to cart (TEMP: still storing in 'products' table for now)
+
 app.post("/addtocart", async (req, res) => {
   const productName = req.body.productName;
   const price = req.body.price;
@@ -106,7 +106,7 @@ app.post("/addtocart", async (req, res) => {
       "INSERT INTO products(name, price, stock) VALUES($1, $2, $3)",
       [productName, price, quantity]
     );
-    res.redirect("/cart");
+    res.redirect("/products");
   } catch (err) {
     console.error(err);
     res.status(500).send("Error adding to cart.");
@@ -115,10 +115,10 @@ app.post("/addtocart", async (req, res) => {
 
 app.get("/cart", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM products ORDER BY id DESC LIMIT 1");
+    const result = await db.query("SELECT * FROM products ORDER BY id DESC LIMIT 10");
 
     if (result.rows.length > 0) {
-      const p = result.rows[0];
+      const p = result.rows;
       res.render("cart.ejs", { p });
     } else {
       res.send("Your cart is empty.");
@@ -129,35 +129,17 @@ app.get("/cart", async (req, res) => {
   }
 });
 
+
 app.post("/buy", async (req, res) => {
-  const { productId, quantity } = req.body;
-  const userId = 1; // change this based on session/login
-
   try {
-    // Get current stock
-    const productResult = await db.query("SELECT stock FROM products WHERE id = $1", [productId]);
-    const currentStock = productResult.rows[0].stock;
-
-    if (currentStock < quantity) {
-      return res.json({ success: false, message: "Not enough stock." });
-    }
-
-    // Insert into cart_items
-    await db.query(
-      "INSERT INTO cart_items (user_id, product_id, quantity) VALUES ($1, $2, $3)",
-      [userId, productId, quantity]
-    );
-
-    // Reduce stock
-    const newStock = currentStock - quantity;
-    await db.query("UPDATE products SET stock = $1 WHERE id = $2", [newStock, productId]);
-
-    res.json({ success: true, newStock }); // send updated stock
+    await db.query("DELETE FROM products");
+    res.send("Purchase successful! All products cleared.");
   } catch (err) {
     console.error(err);
-    res.json({ success: false, message: "Server error" });
+    res.status(500).send("Error completing purchase.");
   }
 });
+
 
 
 app.listen(port, () => {

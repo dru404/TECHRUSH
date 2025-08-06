@@ -8,29 +8,47 @@
 <body>
   <h2>Your Cart</h2>
 
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Price (₹)</th>
-        <th>Quantity</th>
-        <th>Total (₹)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
- <td><%= p.name %></td>
-<td><%= p.price %></td> 
-<td><%= p.stock %></td>
-<td><%= p.price * p.stock %></td>
+  <% if (p.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price (₹)</th>
+          <th>Quantity</th>
+          <th>Total (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
+          let grandTotal = 0;
+          let totalQuantity = 0;
+          p.forEach(product => {
+            const total = product.price * product.stock;
+            grandTotal += total;
+            totalQuantity += Number(product.stock);
+        %>
+          <tr>
+            <td><%= product.name %></td>
+            <td>₹<%= product.price %></td>
+            <td><%= product.stock %></td>
+            <td>₹<%= total %></td>
+          </tr>
+        <% }) %>
+        
+        <tr class="total-row">
+          <td colspan="2">Grand Total</td>
+          <td><%= totalQuantity %></td>
+          <td>₹<%= grandTotal %></td>
+        </tr>
+      </tbody>
+    </table>
 
-      </tr>
-    </tbody>
-  </table>
-<form class="buy-form" data-product-id="<%= product.id %>">
-  <input type="number" name="quantity" value="1" min="1" max="<%= product.stock %>">
-  <button type="submit">Buy</button>
-</form>
-
+    <form action="/buy" method="POST">
+      <button class="buy-button" type="submit">Buy Now</button>
+    </form>
+  
+  <% } else { %>
+    <div class="empty">Your cart is empty.</div>
+  <% } %>
 </body>
 </html>
