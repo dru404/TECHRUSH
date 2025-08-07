@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Fruit Basket</title>
+    <style>
+        body {
+            height: 300vh;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #f0f0f0;
+            font-family: sans-serif;
+        }
+
+        .scrolling-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .fruit {
+            position: absolute;
+            width: 200px;
+            height: auto;
+            transition: transform 1s ease-out;
+            z-index: 10;
+        }
+
+        /* Initial scattered positions for fruits - We will read these from JS */
+        #fruit1 { top: 10%; left: 20%; transform: rotate(-20deg); }
+        #fruit2 { top: 30%; left: 70%; transform: rotate(15deg); }
+        #fruit3 { top: 60%; left: 40%; transform: rotate(5deg); }
+        #fruit4 { top: 25%; left: 55%; transform: rotate(45deg); }
+        #fruit5 { top: 75%; left: 15%; transform: rotate(-10deg); }
+
+        .basket-container {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            z-index: 100;
+        }
+
+        .basket {
+            width: 300px;
+            height: auto;
+        }
+
+        .scrolling-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scrolling-container">
+        <div class="scrolling-text">Scroll Down</div>
+        <img src="images/fruits/apple.svg" alt="Apple" class="fruit" id="fruit1">
+        <img src="images/fruits/grape.svg" alt="Banana" class="fruit" id="fruit2">
+        <img src="images/fruits/orange.svg" alt="Carrot" class="fruit" id="fruit3">
+        <img src="images/fruits/pear.svg" alt="Grapes" class="fruit" id="fruit4">
+        <img src="images/fruits/watermelon.svg" alt="Strawberry" class="fruit" id="fruit5">
+        
+        <div class="basket-container">
+            <img src="https://i.imgur.com/vHqB1w5.png" alt="Basket" class="basket">
+        </div>
+    </div>
+    
+    <div style="height: 100vh; display: flex; justify-content: center; align-items: center; font-size: 2em; color: #555;">
+        A colorful collection!
+    </div>
+
+    <script>
+        // JAVASCRIPT LOGIC
+        window.addEventListener('DOMContentLoaded', () => {
+            const fruits = document.querySelectorAll('.fruit');
+            const basket = document.querySelector('.basket-container');
+            const initialPositions = {};
+
+            // Store initial positions of each fruit
+            fruits.forEach(fruit => {
+                const rect = fruit.getBoundingClientRect();
+                initialPositions[fruit.id] = {
+                    top: rect.top + window.scrollY,
+                    left: rect.left
+                };
+            });
+
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const scrollProgress = Math.min(1, scrollPosition / (windowHeight * 1.5));
+                
+                // Animate the basket's appearance
+                if (scrollPosition > windowHeight / 2) {
+                    basket.style.opacity = 1;
+                } else {
+                    basket.style.opacity = 0;
+                }
+
+                fruits.forEach(fruit => {
+                    const initialTop = initialPositions[fruit.id].top;
+                    const initialLeft = initialPositions[fruit.id].left;
+
+                    // Define the target position inside the basket. These values
+                    // are now absolute pixel values, not percentages.
+                    const basketRect = basket.getBoundingClientRect();
+                    const targetTop = basketRect.top + basketRect.height / 2;
+                    const targetLeft = basketRect.left + basketRect.width / 2;
+
+                    // Interpolate between initial and target positions
+                    const newTop = initialTop + (targetTop - initialTop) * scrollProgress;
+                    const newLeft = initialLeft + (targetLeft - initialLeft) * scrollProgress;
+                    
+                    const newScale = 1 - scrollProgress * 0.4;
+                    
+                    // Apply new position and scale using transform
+                    fruit.style.transform = `translate(${newLeft - initialLeft}px, ${newTop - initialTop}px) scale(${newScale})`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

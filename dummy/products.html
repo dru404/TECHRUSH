@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products</title>
+   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="products.css">
+  
+</head>
+<body>
+    <header>
+    <div class="nav-left">
+      <a href="/index">Home</a>
+      <a href="/products">Products</a>
+      <a href="/faq">FAQ</a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" placeholder="Search for Item">
+      <img src="search-icon.svg">
+    </div>
+
+    <a href="/addtocart" class="cart-button" title="View Cart">
+      <img src="shoppingcart.svg" alt="Cart">
+    </a>
+  </header>
+
+
+<div class="products-grid">
+  <div class="product-main-body">
+  </div>
+</div>
+
+  <script src="products.js"></script>
+  <script src="scripts/vegetables.js"></script>
+  <script src="scripts/fruits.js"></script>
+  <script src="scripts/combine.js"></script>
+  <script>
+    show(showFruits(), showVeges());
+  </script>
+</body>
+</html>
