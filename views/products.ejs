@@ -3,340 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <title>Products</title>
-   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="products.css">
-  
 </head>
 <body>
-    <header>
+  <header>
     <div class="nav-left">
       <a href="/index">Home</a>
       <a href="/products">Products</a>
       <a href="/faq">FAQ</a>
     </div>
-
     <div class="search-container">
       <input type="text" placeholder="Search for Item" id="searchInput">
       <img src="search-icon.svg">
     </div>
-
     <a href="/cart" class="cart-button" title="View Cart">
       <img src="shoppingcart.svg" alt="Cart">
     </a>
   </header>
 
-
-<div class="products-grid">
-
-  <!-- Apples -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="apples" data-name="Apples">
-      <div class="stock-container">
-        <div>Stock: <span class="stock">7</span></div>
-      </div>
-      <div>
-        <img src="/images/apples.svg" class="product-image" alt="Apples">
-      </div>
-      <div class="product-name">Apples</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">
-          <div>Rs. <span class="product-price" id="priceDisplay-apples">100</span></div>
+  <div class="products-grid">
+    <% if (products && products.length > 0) { %>
+      <% products.forEach(product => { %>
+        <div class="product-item">
+          <form action="/addtocart" method="POST">
+            <div class="product-main-body" id="product-<%= product.id %>" data-name="<%= product.name %>">
+              <div class="stock-container">
+                <div>Stock: <span class="stock"><%= product.stock %></span></div>
+              </div>
+              <div>
+                <img src="<%= product.image_path %>" class="product-image" alt="<%= product.name %>">
+              </div>
+              <div class="product-name"><%= product.name %></div>
+              <div class="product-price-and-quantity">
+                <div class="product-price-container">
+                  <div>Rs. <span class="product-price" id="priceDisplay-<%= product.id %>"><%= product.price %></span></div>
+                </div>
+                <div class="product-quantity">
+                  <button type="button" class="decrease" data-id="<%= product.id %>">-</button>
+                  <span class="quantity" id="quantity-<%= product.id %>">1</span>
+                  <button type="button" class="increase" data-id="<%= product.id %>">+</button>
+                </div>
+              </div>
+              <input type="hidden" name="productId" value="<%= product.id %>">
+              <input type="hidden" name="quantity" id="quantityInput-<%= product.id %>" value="1">
+              <div class="add-to-cart-button">
+                <button type="submit" name="addtocart">Add to Cart</button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="apples">-</button>
-          <span class="quantity" id="quantity-apples">1</span>
-          <button type="button" class="increase" data-id="apples">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Apples">
-      <input type="hidden" name="price" id="priceInput-apples" value="100">
-      <input type="hidden" name="quantity" id="quantityInput-apples" value="1">
-      <div class="add-to-cart-button">
-        <button type="submit" name="addtocart">Add to Cart</button>
-      </div>
-    </div>
-  </form>
-</div>
-  <!-- mangoes -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="mangoes" data-name="Mangoes">
-      <div class="stock-container">
-        <div>Stock: <span class="stock">10</span></div>
-      </div>
-      <div>
-        <img src="/images/mangoes.svg" class="product-image" alt="mangoes">
-      </div>
-      <div class="product-name">Mangoes
-      </div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">
-          <div>Rs. <span class="product-price" id="priceDisplay-mangoes">80</span></div>
-        </div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="mangoes">-</button>
-          <span class="quantity" id="quantity-mangoes">1</span>
-          <button type="button" class="increase" data-id="mangoes">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Mangoes">
-      <input type="hidden" name="price" id="priceInput-mangoes" value="80">
-      <input type="hidden" name="quantity" id="quantityInput-mangoes" value="1">
-      <div class="add-to-cart-button">
-        <button type="submit" name="addtocart">Add to Cart</button>
-      </div>
-    </div>
-  </form>
-</div>
-
-<div class="product-item">
-<form action="/addtocart" method="POST">
-    <div class="product-main-body" id="pomegranate" data-name="Pomegranate">
-      <div class="stock-container"><div>Stock: <span class="stock">5</span></div></div>
-      <div><img src="/images/pomegranate.svg" class="product-image" alt="Pomegranate"></div>
-      <div class="product-name">Pomegranate</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-pomegranate">120</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="pomegranate">-</button>
-          <span class="quantity" id="quantity-pomegranate">1</span>
-          <button type="button" class="increase" data-id="pomegranate">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Pomegranate">
-      <input type="hidden" name="price" id="priceInput-pomegranate" value="120">
-      <input type="hidden" name="quantity" id="quantityInput-pomegranate" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-  </div>
-
-  <!-- Bananas -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="bananas" data-name="Bananas">
-      <div class="stock-container"><div>Stock: <span class="stock">12</span></div></div>
-      <div><img src="/images/bananas.svg" class="product-image" alt="Bananas"></div>
-      <div class="product-name">Bananas</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-bananas">30</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="bananas">-</button>
-          <span class="quantity" id="quantity-bananas">1</span>
-          <button type="button" class="increase" data-id="bananas">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Bananas">
-      <input type="hidden" name="price" id="priceInput-bananas" value="30">
-      <input type="hidden" name="quantity" id="quantityInput-bananas" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-  <!-- Grapes -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST" data-name="Grapes">
-    <div class="product-main-body" id="grapes" data-name="Grapes">
-      <div class="stock-container"><div>Stock: <span class="stock">9</span></div></div>
-      <div><img src="/images/grapes.svg" class="product-image" alt="Grapes"></div>
-      <div class="product-name">Grapes</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-grapes">70</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="grapes">-</button>
-          <span class="quantity" id="quantity-grapes">1</span>
-          <button type="button" class="increase" data-id="grapes">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Grapes">
-      <input type="hidden" name="price" id="priceInput-grapes" value="70">
-      <input type="hidden" name="quantity" id="quantityInput-grapes" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-  <!-- Pineapple -->
-   <div class="product-item>
-  <form action="/addtocart" method="POST" data-name="Pineapple">
-    <div class="product-main-body" id="pineapple" data-name="Pineapples">
-      <div class="stock-container"><div>Stock: <span class="stock">4</span></div></div>
-      <div><img src="/images/pineapple.svg" class="product-image" alt="Pineapple"></div>
-      <div class="product-name">Pineapple</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-pineapple">60</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="pineapple">-</button>
-          <span class="quantity" id="quantity-pineapple">1</span>
-          <button type="button" class="increase" data-id="pineapple">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Pineapple">
-      <input type="hidden" name="price" id="priceInput-pineapple" value="60">
-      <input type="hidden" name="quantity" id="quantityInput-pineapple" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-  <!-- Papaya -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="papaya" data-name="Papaya">
-      <div class="stock-container"><div>Stock: <span class="stock">6</span></div></div>
-      <div><img src="/images/papaya.svg" class="product-image" alt="Papaya"></div>
-      <div class="product-name">Papaya</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-papaya">50</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="papaya">-</button>
-          <span class="quantity" id="quantity-papaya">1</span>
-          <button type="button" class="increase" data-id="papaya">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Papaya">
-      <input type="hidden" name="price" id="priceInput-papaya" value="50">
-      <input type="hidden" name="quantity" id="quantityInput-papaya" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-  <!-- Strawberries -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="strawberries" data-name="Strawberries">
-      <div class="stock-container"><div>Stock: <span class="stock">3</span></div></div>
-      <div><img src="/images/strawberries.svg" class="product-image" alt="Strawberries"></div>
-      <div class="product-name">Strawberries</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-strawberries">110</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="strawberries">-</button>
-          <span class="quantity" id="quantity-strawberries">1</span>
-          <button type="button" class="increase" data-id="strawberries">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Strawberries">
-      <input type="hidden" name="price" id="priceInput-strawberries" value="110">
-      <input type="hidden" name="quantity" id="quantityInput-strawberries" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-  <!-- Blueberries -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="blueberries" data-name="Blueberries">
-      <div class="stock-container"><div>Stock: <span class="stock">2</span></div></div>
-      <div><img src="/images/blueberries.svg" class="product-image" alt="Blueberries"></div>
-      <div class="product-name">Blueberries</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-blueberries">150</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="blueberries">-</button>
-          <span class="quantity" id="quantity-blueberries">1</span>
-          <button type="button" class="increase" data-id="blueberries">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Blueberries">
-      <input type="hidden" name="price" id="priceInput-blueberries" value="150">
-      <input type="hidden" name="quantity" id="quantityInput-blueberries" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-  <!-- Watermelon -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="watermelon" data-name="Watermelon">
-      <div class="stock-container"><div>Stock: <span class="stock">7</span></div></div>
-      <div><img src="/images/watermelon.svg" class="product-image" alt="Watermelon"></div>
-      <div class="product-name">Watermelon</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-watermelon">40</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="watermelon">-</button>
-          <span class="quantity" id="quantity-watermelon">1</span>
-          <button type="button" class="increase" data-id="watermelon">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Watermelon">
-      <input type="hidden" name="price" id="priceInput-watermelon" value="40">
-      <input type="hidden" name="quantity" id="quantityInput-watermelon" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-   </div>
-  <!-- Kiwi -->
-   <div class="product-item">
-  <form action="/addtocart" method="POST">
-    <div class="product-main-body" id="kiwi" data-name="Kiwi">
-      <div class="stock-container"><div>Stock: <span class="stock">5</span></div></div>
-      <div><img src="/images/kiwi.svg" class="product-image" alt="Kiwi"></div>
-      <div class="product-name">Kiwi</div>
-      <div class="product-price-and-quantity">
-        <div class="product-price-container">Rs. <span class="product-price" id="priceDisplay-kiwi">130</span></div>
-        <div class="product-quantity">
-          <button type="button" class="decrease" data-id="kiwi">-</button>
-          <span class="quantity" id="quantity-kiwi">1</span>
-          <button type="button" class="increase" data-id="kiwi">+</button>
-        </div>
-      </div>
-      <input type="hidden" name="productName" value="Kiwi">
-      <input type="hidden" name="price" id="priceInput-kiwi" value="130">
-      <input type="hidden" name="quantity" id="quantityInput-kiwi" value="1">
-      <div class="add-to-cart-button"><button type="submit">Add to Cart</button></div>
-    </div>
-  </form>
-</div>
-</div>
-
-</div>
-
-      </form>
-
-
+      <% }) %>
+    <% } else { %>
+      <p>No products available at the moment.</p>
+    <% } %>
   </div>
 
   <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const products = document.querySelectorAll(".product-main-body");
+    // MODIFIED: The script now targets the dynamic product cards
+    const productItems = document.querySelectorAll(".product-main-body");
 
-    // 🔧 Search functionality
+    // Search functionality remains the same but works on dynamic content
     const searchInput = document.getElementById("searchInput");
-
     searchInput.addEventListener("input", () => {
       const query = searchInput.value.toLowerCase().trim();
-
-      products.forEach(product => {
-        const name = product.getAttribute("data-name").toLowerCase();
-        if (name.includes(query)) {
-          product.parentElement.style.display = "block";
-        } else {
-          product.parentElement.style.display = "none";
-        }
+      productItems.forEach(item => {
+        const name = item.getAttribute("data-name").toLowerCase();
+        // The parent of product-main-body is product-item, which we hide/show
+        item.parentElement.style.display = name.includes(query) ? "block" : "none";
       });
     });
 
-    // Quantity and price logic
-    products.forEach(product => {
-      const id = product.id;
+    // Quantity logic is now applied to each dynamically generated product
+    productItems.forEach(product => {
+      const productId = product.id.split('-')[1]; // Extracts ID from 'product-1'
       const stock = parseInt(product.querySelector(".stock").innerText);
-      const basePrice = parseInt(product.querySelector(`#priceDisplay-${id}`).innerText);
-
-      const quantityDisplay = document.getElementById(`quantity-${id}`);
-      const quantityInput = document.getElementById(`quantityInput-${id}`);
-      const priceDisplay = document.getElementById(`priceDisplay-${id}`);
-      const priceInput = document.getElementById(`priceInput-${id}`);
-
+      
+      const quantityDisplay = document.getElementById(`quantity-${productId}`);
+      const quantityInput = document.getElementById(`quantityInput-${productId}`);
+      
       const increaseBtn = product.querySelector(".increase");
       const decreaseBtn = product.querySelector(".decrease");
-
-      function updateTotal() {
-        const quantity = parseInt(quantityDisplay.innerText);
-        const totalPrice = basePrice;
-        priceDisplay.innerText = totalPrice;
-        priceInput.value = totalPrice;
-      }
 
       increaseBtn.addEventListener("click", () => {
         let quantity = parseInt(quantityDisplay.innerText);
@@ -344,7 +92,6 @@
           quantity++;
           quantityDisplay.innerText = quantity;
           quantityInput.value = quantity;
-          updateTotal();
         } else {
           alert(`Only ${stock} items available in stock.`);
         }
@@ -356,14 +103,10 @@
           quantity--;
           quantityDisplay.innerText = quantity;
           quantityInput.value = quantity;
-          updateTotal();
         }
       });
-
-      updateTotal();
     });
   });
-</script>
-
+  </script>
 </body>
 </html>

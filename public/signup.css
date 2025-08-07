@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  padding-top: 90px; /* same as header height */
-  overflow-x: hidden;  /* prevent horizontal scroll */
+  padding-top: 90px;
+  overflow-x: hidden; 
   min-height: 100vh;
   background-color: black;
 }
@@ -14,12 +14,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-/* button 
-{
-  background: transparent;
-  border: 0;
-} */
 
 .control 
 {
@@ -105,7 +99,6 @@ button.control
   padding: 100px 30px 32px;
   border-radius: 20px;
   background: rgb(0 0 0 / 21%);
-  /* backdrop-filter: blur(26px); */
   text-align: center;
 }
 
@@ -123,4 +116,21 @@ h3
   margin: 0 0 40px;
   font-weight: 500;
   font-size: 16px;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; 
+}
+
+
+* {
+  box-sizing: border-box;
 }
