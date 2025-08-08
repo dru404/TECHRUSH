@@ -5,23 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Online Shopping</title>
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="footer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-
-  <header>
+  <div class="page-container">
+ <header>
     <div class="nav-left">
+      <img src="/images/logo.svg" class="logo">
       <a href="/index">Home</a>
       <a href="/products">Products</a>
       <a href="/faq">FAQ</a>
+</div>
+    <div class="nav-right">
+      <a href="/cart" class="btn">Cart</a>
+      <a href="/login" class="btn">Log out</a>
     </div>
-
-    <div class="search-container">
-      <input type="text" placeholder="Search for Item">
-      <img src="search-icon.svg">
-    </div>
-
   </header>
+    <div style="flex: 1;"></div>
+  <video autoplay muted loop id="bg-video">
+  <source src="/images/istockphoto-1301367774-640_adpp_is.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+<div class="video-overlay"></div>
+    <section class="hero">
+  <h1>Welcome to <span class="emart">EMart</span></h1>
+  <section class="featured-products">
+  <h2><span class="best">Best</span> <span class="sellers">Sellers</span></h2>
+  <div class="product-grid">
+    <div class="product-card">
+      <h3 class="apple">Malus pumila (Apples)</h3>
+      <p class="index-price-text">₹100/kg</p>
+       <a href="/products" class="cta-btn">Shop Now</a>
+    </div>
+    <div class="product-card">
+      <h3 class="mango">Yummy Mangoes!</h3>
+      <p class="index-price-text">₹80/kg</p>
+       <a href="/products" class="cta-btn">Shop Now</a>
+    </div>
+    <div class="product-card">
+     <h3 class="banana">Banana Buzz</h3>
+      <p class="index-price-text">₹30/kg</p>
+       <a href="/products" class="cta-btn">Shop Now</a>
+    </div>
+  </div>
+</section>
+  <h3 class="fresh-quote"><span class="white-text">Your daily dose of fresh</span><span class="green-text">ness is just a click away.</span></h3>
+</section>  
+
+ <footer class="footer">
+  <div class="footer-grid">
+
+    <div class="reviews-section">
+      <h3>Customer Reviews</h3>
+      <div class="reviews">
+        <div class="review-card">
+          <p>"Fantastic service and fast delivery! Highly recommend this store."</p>
+          <h4>- Aashita</h4>
+        </div>
+        <div class="review-card">
+          <p>"Great quality products and excellent customer support."</p>
+          <h4>- Dhruval</h4>
+        </div>
+        <div class="review-card">
+          <p>"Easy to navigate website and seamless checkout process."</p>
+          <h4>- Om</h4>
+        </div>
+        <div class="review-card">
+          <p>"The packaging was neat and products were just as described."</p>
+          <h4>- Pushkar</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="newsletter">
+      <h3>Subscribe to our Newsletter</h3>
+      <p>Get updates on latest deals and fresh arrivals straight to your inbox!</p>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p id="subscribe-message" style="display: none; color: green; margin-top: 10px;"></p>
+<div class="social-icons">
+  <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+  <a href="https://www.instagram.com/aashita_10?igsh=NWdxNGc2Y2hnMzJr" target="_blank"><i class="fab fa-instagram"></i></a>
+  <a href="https://wa.me/919999999999" target="_blank"><i class="fab fa-whatsapp"></i></a>
+</div>
+ </div>
+  </div>
+</footer>
+
+  </div>
+<script>
+  const form = document.getElementById("newsletterForm");
+  const message = document.getElementById("subscribe-message");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); 
+    message.textContent = "Thanks for subscribing! We will keep updating you about our new products.";
+    message.style.display = "block";
+
+    form.reset();
+  });
+</script>
 
 </body>
-
 </html>

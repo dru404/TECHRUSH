@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Customers</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-leaf logo-icon"></i>
+                <span class="logo-text">FreshCart Admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/products" class="nav-link"><i class="fas fa-box-open"></i> Products</a>
+                <a href="/orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Orders</a>
+                <a href="/customers" class="nav-link active"><i class="fas fa-users"></i> Customers</a>
+                <a href="/analytics" class="nav-link"><i class="fas fa-chart-line"></i> Analytics</a>
+                <a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h2>Customer List</h2>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="table-container">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% customers.forEach(customer => { %>
+                            <tr>
+                                <td data-label="Customer ID"><%= customer.id %></td>
+                                <td data-label="Email"><%= customer.email %></td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

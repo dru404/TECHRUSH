@@ -3,46 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="/index.css">
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="admin-container">
-        <h1 class="admin-title">Product Management</h1>
-        
-        <table class="product-table">
-            <thead>
-                <tr>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-leaf logo-icon"></i>
+                <span class="logo-text">FreshCart Admin</span>
+            </div>
+          <nav class="sidebar-nav">
+    <a href="/admin" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="/admin" class="nav-link"><i class="fas fa-box-open"></i> Products</a>
+    <a href="/orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Orders</a>
+    <a href="/customers" class="nav-link"><i class="fas fa-users"></i> Customers</a>
+    <a href="/analytics" class="nav-link"><i class="fas fa-chart-line"></i> Analytics</a>
+    <a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+</nav>
+<div class="sidebar-footer">
+    <a href="/login" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+<main class="main-content">
+    <header class="main-header">
+          <h2>Product Management</h2>
+             <div class="header-actions">
+                 <button id="addProductBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Product</button>
+              </div>
+           </header>
+
+    <div class="content-wrapper">
+        <div class="table-container">
+            <table class="product-table">
+                <thead>
+                    <tr>
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Current Stock</th>
                     <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% products.forEach(product => { %>
-                <tr>
-                    <td><%= product.name %></td>
-                    <td>$<%= product.price %></td>
-                    <td><span class="stock-count"><%= product.stock %></span></td>
-                    <td class="action-cell">
-                        <form action="/admin-update" method="POST" class="action-form">
+                    </tr>
+                    </thead>
+                    <tbody>
+                     <% products.forEach(product => { %>
+                    <tr>
+                        <td data-label="Product Name"><%= product.name %></td>
+                        <td data-label="Price">₹<%= product.price.toFixed(2) %></td>
+                        <td data-label="Current Stock">
+                            <span class="stock-count <%= product.stock < 10 ? 'low-stock' : '' %>">
+                                <%= product.stock %>
+                            </span>
+                            </td>
+                        <td data-label="Actions" class="action-cell">
+                            <form action="/admin-update" method="POST" class="action-form">
                             <input type="hidden" name="productId" value="<%= product.id %>">
-                            <button name="action" value="increment" class="btn btn-increment" title="Increase Stock">+</button>
-                            <button name="action" value="decrement" class="btn btn-decrement" title="Decrease Stock">-</button>
-                        </form>
-                        <form action="/admin/delete" method="POST" class="action-form">
-                            <input type="hidden" name="productId" value="<%= product.id %>">
-                            <button type="submit" class="btn btn-delete" title="Delete Product">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                            <button name="action" value="increment" class="btn-icon btn-increment" title="Increase Stock"><i class="fas fa-plus"></i></button>
+                            <button name="action" value="decrement" class="btn-icon btn-decrement" title="Decrease Stock"><i class="fas fa-minus"></i></button>
+                            </form>
+                    <form action="/admin/delete" method="POST" class="action-form">
+                        <input type="hidden" name="productId" value="<%= product.id %>">
+                            <button type="submit" class="btn-icon btn-delete" title="Delete Product"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                            <% }) %>
+                </tbody>
+                </table>
+                </div>
+        </div>
+    </main>
+ </div>
+
+<div id="addProductModal" class="modal">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h2>Add New Product</h2>
+            <button id="closeModalBtn" class="close-btn">&times;</button>
+        </header>
+        <div class="modal-body">
+            <form action="/admin/add" method="POST">
+             <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" name="name" required>
+                </div>
+             <div class="form-group">
+                        <label for="productPrice">Price</label>
+                        <input type="number" id="productPrice" name="price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productStock">Stock</label>
+                        <input type="number" id="productStock" name="stock" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">Image URL</label>
+                        <input type="text" id="productImage" name="imageUrl">
+                    </div>
+                     <div class="form-group">
+                        <label for="productDescription">Description</label>
+                        <textarea id="productDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const modal = document.getElementById('addProductModal');
+        const addBtn = document.getElementById('addProductBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        addBtn.onclick = () => modal.style.display = 'flex';
+        closeBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
 
 </body>
 </html>

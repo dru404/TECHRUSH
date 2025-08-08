@@ -1,104 +1,346 @@
-/* General Body Styles */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
+/* --- Google Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS Variables for Easy Theming --- */
+:root {
+    --primary-green: #2E7D32;
+    --light-green: #4CAF50;
+    --accent-green: #C8E6C9;
+    --dark-grey: #34495e;
+    --light-grey: #ecf0f1;
+    --text-color: #555;
+    --background-color: #f4f6f9;
+    --white-color: #ffffff;
+    --red-color: #e74c3c;
+    --yellow-color: #f1c40f;
+    --blue-color: #3498db;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --sidebar-width: 260px;
+}
+
+/* --- Global Styles --- */
+* {
     margin: 0;
-    padding: 2rem;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Main container for the admin panel */
-.admin-container {
-    max-width: 1000px;
-    margin: auto;
-    background-color: #ffffff;
-    padding: 2rem;
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* --- Main Layout --- */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--primary-green);
+    color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-icon {
+    margin-right: 15px;
+    font-size: 1.8rem;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding-top: 20px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--accent-green);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.nav-link i {
+    width: 20px;
+    margin-right: 15px;
+    font-size: 1.1rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white-color);
+    border-left-color: var(--white-color);
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Main Content Styling --- */
+.main-content {
+    flex-grow: 1;
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.main-header h2 {
+    font-size: 2rem;
+    color: var(--dark-grey);
+}
+
+.content-wrapper {
+    background-color: var(--white-color);
+    padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow);
 }
 
-/* Title styling */
-.admin-title {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 2rem;
-    font-weight: 600;
+/* --- Table Styling --- */
+.table-container {
+    overflow-x: auto; /* For responsiveness */
 }
 
-/* Table styling */
 .product-table {
     width: 100%;
-    border-collapse: collapse; /* Removes double borders */
+    border-collapse: collapse;
     text-align: left;
 }
 
-/* Table header and cell styling */
 .product-table th, .product-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 15px;
+    border-bottom: 1px solid var(--light-grey);
+    vertical-align: middle;
 }
 
-/* Table header specific styles */
 .product-table th {
     background-color: #f8f9fa;
     font-weight: 600;
-    color: #495057;
+    color: var(--dark-grey);
     text-transform: uppercase;
     font-size: 0.85em;
-    letter-spacing: 0.5px;
 }
 
-/* Add a hover effect on table rows for better UX */
 .product-table tbody tr:hover {
-    background-color: #fdfdfd;
+    background-color: #f9fbfd;
 }
 
-/* Make the stock number stand out */
+.product-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
 .stock-count {
     font-weight: 700;
     font-size: 1.1em;
-    color: #3498db;
+    color: var(--primary-green);
 }
 
-/* Styling for the cell containing action buttons */
+.stock-count.low-stock {
+    color: var(--red-color);
+}
+
 .action-cell {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Space between forms */
+    gap: 10px;
 }
 
 .action-form {
     display: inline-flex;
-    gap: 0.5rem; /* Space between buttons inside a form */
+    gap: 5px;
 }
 
-/* Base button styling */
+/* --- Button Styling --- */
 .btn {
-    padding: 0.5rem 1rem;
+    padding: 10px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
     font-size: 1em;
     transition: all 0.2s ease-in-out;
+    color: var(--white-color);
+}
+
+.btn-primary {
+    background-color: var(--light-green);
+}
+.btn-primary:hover {
+    background-color: var(--primary-green);
+}
+
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
+    transition: all 0.2s ease;
 }
-
-.btn:hover {
+.btn-icon:hover {
     transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
-/* Specific button colors */
-.btn-increment {
-    background-color: #28a745; /* Green */
+.btn-increment { background-color: var(--blue-color); }
+.btn-decrement { background-color: var(--yellow-color); color: #333; }
+.btn-delete { background-color: var(--red-color); }
+
+/* --- Modal Styling --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
 }
 
-.btn-decrement {
-    background-color: #ffc107; /* Yellow */
-    color: #333;
+.modal-content {
+    background-color: var(--white-color);
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+    animation: slide-down 0.4s ease-out;
 }
 
-.btn-delete {
-    background-color: #dc3545; /* Red */
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--light-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-header h2 {
+    color: var(--dark-grey);
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+}
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--light-green);
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
+@keyframes slide-down {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    .sidebar .logo-text, .sidebar .nav-link span {
+        display: none;
+    }
+    .main-content {
+        margin-left: 70px;
+    }
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .product-table thead {
+        display: none; /* Hide table headers */
+    }
+    .product-table, .product-table tbody, .product-table tr, .product-table td {
+        display: block;
+        width: 100%;
+    }
+    .product-table tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--light-grey);
+        border-radius: 8px;
+    }
+    .product-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+    }
+    .product-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 30px);
+        text-align: left;
+        font-weight: bold;
+        color: var(--dark-grey);
+    }
 }

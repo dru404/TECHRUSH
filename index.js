@@ -87,6 +87,50 @@ app.post("/admin/delete", checkAdmin, async (req, res) => {
   }
 });
 
+app.get("/orders", checkAdmin, async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT o.id,o.order_date,u.email AS customer_email,SUM(oi.quantity * p.price) AS total_amount 
+      FROM orders o 
+      JOIN users u ON o.user_id = u.id
+      JOIN order_items oi ON o.id = oi.order_id
+      JOIN products p ON oi.product_id = p.id
+      GROUP BY o.id, u.email
+      ORDER BY o.order_date DESC;`);
+    res.render("orders.ejs", { orders: result.rows });
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    res.status(500).send("Could not load orders.");
+  }
+});
+
+app.get("/customers", checkAdmin, async (req, res) => {
+  try {
+    const result = await db.query("SELECT id, email FROM users WHERE email != 'admin123@gmail.com'");
+    res.render("customers.ejs", { customers: result.rows });
+  } catch (err) {
+    console.error("Error fetching customers:", err);
+    res.status(500).send("Could not load customer data.");
+  }
+});
+
+app.get("/analytics", checkAdmin, async (req, res) => {
+  try {
+    const totalProductsResult = await db.query("SELECT COUNT(*) FROM products");
+    const totalUsersResult = await db.query("SELECT COUNT(*) FROM users");
+    const totalOrdersResult = await db.query("SELECT COUNT(*) FROM orders");
+
+    res.render("analytics.ejs", { 
+      totalProducts: totalProductsResult.rows[0].count,
+      totalUsers: totalUsersResult.rows[0].count,
+      totalOrders: totalOrdersResult.rows[0].count,
+    });
+  } catch (err) {
+    console.error("Error fetching analytics data:", err);
+    res.status(500).send("Could not load analytics.");
+  }
+});
+
 // for products page
 app.get("/products", async (req, res) => {
   try {
@@ -129,7 +173,7 @@ app.post("/login", async (req, res) => {
         if (user.email === 'admin123@gmail.com') {
           res.redirect("/admin");
         } else {
-          res.redirect("/products");
+          res.redirect("/index");
         }
       } else {
         res.render("login.ejs", { error: "Incorrect Password" });

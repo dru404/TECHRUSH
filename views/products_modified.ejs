@@ -7,9 +7,8 @@
   <link rel="stylesheet" href="products.css">
 </head>
 <body>
- <header>
+  <header>
     <div class="nav-left">
-      <img src="/images/logo.svg" class="logo">
       <a href="/index">Home</a>
       <a href="/products">Products</a>
       <a href="/faq">FAQ</a>
@@ -18,40 +17,38 @@
       <input type="text" placeholder="Search for Item" id="searchInput">
       <img src="search-icon.svg">
     </div>
-    <div class="nav-right">
-      <a href="/cart" class="btn">Cart</a>
-      <a href="/login" class="btn">Log out</a>
-    </div>
+    <a href="/cart" class="cart-button" title="View Cart">
+      <img src="shoppingcart.svg" alt="Cart">
+    </a>
   </header>
 
 <div class="products-grid">
-  <% if (products && products.length > 0) { %>
-    <% products.forEach(product => { %>
   <div class="product-item">
     <form action="/addtocart" method="POST">
-      <div class="product-main-body" id="product-<%= product.id %>" data-name="<%= product.name %>">
+      <div class="product-main-body" id="product-apples" data-name="Apples">
         <div class="stock-container">
+          <div>Stock: <span class="stock">10</span></div>
         </div>
-        <div id="image-container">
-          <img src="/images/<%= product.name%>.jpg" alt="<%= product.name %>" class="product-image">
+        <div>
+          <img src="" alt="Apples" class="product-image">
         </div>
-        <div>Stock: <span class="stock"><%= product.stock %></span></div>
-        <div class="expiry"><%= product.expiry %></div>
-        <div class="product-name"><%= product.name %></div>
-        <div class="product-description"><%= product.description %>
+        <div class="expiry">08 August</div>
+        <div class="product-name">Apples</div>
+        <div class="product-description">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat deserunt fugit quasi vel iure aperiam hic consequatur. Repellendus suscipit fuga nemo reprehenderit odit tempore. Modi ipsa quam consequuntur sint nesciunt!
         </div>
         <div class="product-price-and-quantity">
           <div class="product-price-container">
-            <div><span class="product-price" id="priceDisplay-<%= product.id %>">₹<%= product.price %></span></div>
+            <div>Rs. <span class="product-price" id="priceDisplay-apples">₹120</span></div>
           </div>
           <div class="product-quantity">
-            <button type="button" class="decrease" data-id="<%= product.id %>">-</button>
-            <span class="quantity" id="quantity-<%= product.id %>">1</span>
-            <button type="button" class="increase" data-id="<%= product.id %>">+</button>
+            <button type="button" class="decrease" data-id="apples">-</button>
+            <span class="quantity" id="quantity-apples">1</span>
+            <button type="button" class="increase" data-id="apples">+</button>
           </div>
         </div>
-        <input type="hidden" name="productId" value="<%= product.id %>">
-        <input type="hidden" name="quantity" id="quantityInput-<%= product.id %>" value="1">
+        <input type="hidden" name="productId" value="apples">
+        <input type="hidden" name="quantity" id="quantityInput-apples" value="1">
         <div class="add-to-cart-button">
           <button type="submit" name="addtocart">Add to Cart</button>
         </div>
@@ -59,15 +56,30 @@
       </div>
     </form>
   </div>
-  <% }) %>
-  <% } %>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // MODIFIED: The script now targets the dynamic product cards
     const productItems = document.querySelectorAll(".product-main-body");
 
-
+    // Search functionality remains the same but works on dynamic content
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("input", () => {
       const query = searchInput.value.toLowerCase().trim();
