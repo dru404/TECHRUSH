@@ -17,7 +17,15 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// --- No changes to these routes ---
+//admin
+const checkAdmin = (req, res, next) => {
+  if (req.session.userEmail === 'admin123@gmail.com') {
+    return next();
+  }
+  res.redirect('/products');
+};
+
+// route handlers for users
 app.get("/", (req, res) => {
   res.render("login.ejs", { error: null });
 });
@@ -38,8 +46,48 @@ app.get("/faq", (req, res) => {
   res.render("faq.ejs");
 });
 
-// --- MODIFIED /products route ---
-// This route now fetches product data from the database to dynamically render the page.
+// route handlers for admin
+app.get("/admin", checkAdmin, async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM products ORDER BY id ASC");
+    res.render("admin.ejs", { products: result.rows });
+  } catch (err) {
+    console.error("Error fetching products for admin:", err);
+    res.status(500).send("Could not load admin panel.");
+  }
+});
+
+app.post("/admin-update", checkAdmin, async (req, res) => {
+  const { productId, action } = req.body;
+  try {
+    if (action === "increment") {
+      await db.query("UPDATE products SET stock = stock + 1 WHERE id = $1", [productId]);
+    } else if (action === "decrement") {
+      await db.query("UPDATE products SET stock = stock - 1 WHERE id = $1 AND stock > 0", [productId]);
+    }
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Error updating stock:", err);
+    res.status(500).send("Error updating stock.");
+  }
+});
+
+app.post("/admin/delete", checkAdmin, async (req, res) => {
+  const { productId } = req.body;
+  await db.query("BEGIN");
+  try {
+    await db.query("DELETE FROM cart WHERE product_id = $1", [productId]);
+    await db.query("DELETE FROM products WHERE id = $1", [productId]);
+    await db.query("COMMIT");
+    res.redirect("/admin");
+  } catch (err) {
+    await db.query("ROLLBACK");
+    console.error("Error deleting product:", err);
+    res.status(500).send("Error deleting product.");
+  }
+});
+
+// for products page
 app.get("/products", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM products ORDER BY id ASC");
@@ -50,14 +98,14 @@ app.get("/products", async (req, res) => {
   }
 });
 
-// --- No changes to auth routes ---
+// auth routes
 app.post("/register", async (req, res) => {
   const email = req.body.username;
   const password = req.body.password;
   try {
     const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if (checkResult.rows.length > 0) {
-      res.send("Email already exists. Try logging in.");
+      res.render("signup.ejs", { message: "Email already exists. Please try LOGIN" });
     } else {
       await db.query("INSERT INTO users (email, password) VALUES ($1, $2)", [email, password]);
       res.render("signup.ejs", { message: "Successfully Registered!" });
@@ -74,10 +122,15 @@ app.post("/login", async (req, res) => {
     const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if (checkResult.rows.length > 0) {
       const user = checkResult.rows[0];
-      const checkpassword = user.password;
-      if (password === checkpassword) {
+      if (password === user.password) {
         req.session.userId = user.id;
-        res.redirect("/products"); // Redirect to products page after login
+        req.session.userEmail = user.email; // store email for admin check
+
+        if (user.email === 'admin123@gmail.com') {
+          res.redirect("/admin");
+        } else {
+          res.redirect("/products");
+        }
       } else {
         res.render("login.ejs", { error: "Incorrect Password" });
       }
@@ -89,15 +142,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// --- MODIFIED /addtocart route ---
-// This route is slightly changed to get product ID directly instead of by name.
+// addtocart
 app.post("/addtocart", async (req, res) => {
   const { productId, quantity } = req.body;
   const user_id = req.session.userId;
-
-  if (!user_id) {
-    return res.redirect("/login");
-  }
+  if (!user_id) return res.redirect("/login");
 
   try {
     const checkItemEntry = await db.query("SELECT * FROM cart WHERE user_id = $1 AND product_id = $2", [user_id, productId]);
@@ -113,13 +162,10 @@ app.post("/addtocart", async (req, res) => {
   }
 });
 
-// --- MODIFIED /cart route ---
-// This now passes an optional error message to the template.
+// cart
 app.get("/cart", async (req, res) => {
   const user_id = req.session.userId;
-  if (!user_id) {
-    return res.redirect("/login");
-  }
+  if (!user_id) return res.redirect("/login");
 
   try {
     const result = await db.query(`
@@ -128,8 +174,6 @@ app.get("/cart", async (req, res) => {
       JOIN products p ON c.product_id = p.id 
       WHERE c.user_id = $1
     `, [user_id]);
-    
-    // Pass an empty error message by default
     res.render("cart.ejs", { p: result.rows, error: null });
   } catch (err) {
     console.error(err);
@@ -137,15 +181,11 @@ app.get("/cart", async (req, res) => {
   }
 });
 
-// --- NEW /remove-from-cart route ---
-// This route handles removing an item from the cart.
+// remove from cart
 app.post("/remove-from-cart", async (req, res) => {
   const { productId } = req.body;
   const user_id = req.session.userId;
-
-  if (!user_id) {
-    return res.redirect("/login");
-  }
+  if (!user_id) return res.redirect("/login");
 
   try {
     await db.query("DELETE FROM cart WHERE user_id = $1 AND product_id = $2", [user_id, productId]);
@@ -156,19 +196,13 @@ app.post("/remove-from-cart", async (req, res) => {
   }
 });
 
-
-// --- NEW /buy-all route (replaces old /buy) ---
-// This route processes the purchase for ALL items in the cart.
+// buy all items in cart
 app.post("/buy-all", async (req, res) => {
   const user_id = req.session.userId;
-  if (!user_id) {
-    return res.redirect("/login");
-  }
+  if (!user_id) return res.redirect("/login");
 
-  await db.query("BEGIN"); // Start a transaction
-
+  await db.query("BEGIN");
   try {
-    // Get all items in the user's cart, joining with products to check stock
     const cartItemsResult = await db.query(`
       SELECT p.id, p.name, p.stock, c.quantity 
       FROM cart c
@@ -178,34 +212,31 @@ app.post("/buy-all", async (req, res) => {
 
     const cartItems = cartItemsResult.rows;
 
-    // 1. Check stock for all items BEFORE making any changes
     for (const item of cartItems) {
       if (item.quantity > item.stock) {
-        await db.query("ROLLBACK"); // Abort the transaction
-        // Re-render cart with an error message
+        await db.query("ROLLBACK");
         const currentCartData = await db.query(`
-            SELECT p.id AS product_id, p.name, p.price, c.quantity FROM cart c
-            JOIN products p ON c.product_id = p.id WHERE c.user_id = $1`, [user_id]);
+          SELECT p.id AS product_id, p.name, p.price, c.quantity 
+          FROM cart c
+          JOIN products p ON c.product_id = p.id 
+          WHERE c.user_id = $1
+        `, [user_id]);
         return res.render("cart.ejs", { 
-            p: currentCartData.rows, 
-            error: `Not enough stock for ${item.name}. Only ${item.stock} available.` 
+          p: currentCartData.rows, 
+          error: `Not enough stock for ${item.name}. Only ${item.stock} available.` 
         });
       }
     }
 
-    // 2. If all stock is sufficient, update stock for each product
     for (const item of cartItems) {
       await db.query("UPDATE products SET stock = stock - $1 WHERE id = $2", [item.quantity, item.id]);
     }
 
-    // 3. Clear the user's cart
     await db.query("DELETE FROM cart WHERE user_id = $1", [user_id]);
-    
-    await db.query("COMMIT"); // Commit all changes if successful
+    await db.query("COMMIT");
     res.send("Purchase successful! Thank you for shopping with us.");
-
   } catch (err) {
-    await db.query("ROLLBACK"); // Rollback on any other error
+    await db.query("ROLLBACK");
     console.error("Error during purchase:", err);
     res.status(500).send("Error completing purchase.");
   }

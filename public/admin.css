@@ -1,0 +1,104 @@
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 2rem;
+}
+
+/* Main container for the admin panel */
+.admin-container {
+    max-width: 1000px;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Title styling */
+.admin-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+/* Table styling */
+.product-table {
+    width: 100%;
+    border-collapse: collapse; /* Removes double borders */
+    text-align: left;
+}
+
+/* Table header and cell styling */
+.product-table th, .product-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Table header specific styles */
+.product-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
+}
+
+/* Add a hover effect on table rows for better UX */
+.product-table tbody tr:hover {
+    background-color: #fdfdfd;
+}
+
+/* Make the stock number stand out */
+.stock-count {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #3498db;
+}
+
+/* Styling for the cell containing action buttons */
+.action-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between forms */
+}
+
+.action-form {
+    display: inline-flex;
+    gap: 0.5rem; /* Space between buttons inside a form */
+}
+
+/* Base button styling */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.2s ease-in-out;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* Specific button colors */
+.btn-increment {
+    background-color: #28a745; /* Green */
+}
+
+.btn-decrement {
+    background-color: #ffc107; /* Yellow */
+    color: #333;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red */
+}

@@ -1,136 +1,182 @@
+* {
+  box-sizing: border-box;
+  /* Removed overflow properties to allow for natural scrolling */
+}
+
 body {
   margin: 0;
   padding-top: 90px;
-  overflow-x: hidden; 
   min-height: 100vh;
-  background-color: black;
+  background-color: #f1f8e9; /* Light green background */
+  font-family: Arial, sans-serif; /* Reverted to standard font */
 }
 
-
-
-.main
-{
+.main {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1; /* Allows the form side to take up available space */
 }
 
-.control 
-{
-  border: 0;
+.outer-box {
+  height: calc(100vh - 90px);
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch; /* Stretch children to fill the height */
+}
+
+.welcome-text {
+  height: 100%;
+  width: 45%; 
+  background: 
+  linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+  url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+  color: white;
+  border-radius: 11px;
+}
+
+.welcome-text div {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.greet h2 {
+  color: #fff;
+  font-size: 3rem;
+}
+
+.greet h2 span {
+  color: #cddc39; /* Lime green highlight */
+}
+
+.garbage-message {
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.control {
+  border: 1px solid #ccc;
   border-radius: 8px;
   width: 100%;
-  height: 56px;
+  height: 50px;
   padding: 0 16px;
-  background: rgb(255 255 255 / 6%);
-  color: rgb(249, 249, 249);
+  background: #fff;
+  color: #333;
   margin: 8px 0;
   transition: 0.4s;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-#bars 
-{
-  margin: 8px 0;
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 6px;
-  border-radius: 3px;
-  background: rgb(255 255 255 / 6%);
+.control::placeholder {
+  color: #aaa;
 }
 
-#bars div 
-{
-  height: 6px;
-  border-radius: 3px;
-  transition: 0.4s;
-  width: 0%;
-}
-
-#bars.weak div 
-{
-  background: rgb(208, 66, 79);
-  width: 33.33%;
-}
-
-#bars.medium div 
-{
-  background: rgb(229, 132, 72);
-  width: 66.66%;
-}
-
-#bars.strong div 
-{
-  background: rgb(30, 185, 101);
-  width: 100%;
-}
-
-#bars.very-strong div 
-{
-  background: rgb(28, 86, 212);
-  width: 100%;
-}
-
-.control::placeholder 
-{
-  color: rgb(255 255 255 / 25%);
-}
-
-button.control
-{
+button.control {
   cursor: pointer;
-  width: 100%;
-  height: 56px;
-  padding: 0 16px;
-  background: rgb(58, 117, 220);
+  background: #4caf50; /* Primary green button */
   color: white;
   border: 0;
   font-family: inherit;
   font-size: 17px;
   font-weight: 600;
-  text-align: center;
   transition: all 0.375s;
 }
 
-.card 
-{
-  width: 320px;
-  padding: 100px 30px 32px;
+button.control:hover {
+    background: #43a047;
+}
+
+.card {
+  width: 360px;
+  padding: 40px 30px;
   border-radius: 20px;
-  background: rgb(0 0 0 / 21%);
+  background: transparent; /* Made card transparent to show body background */
   text-align: center;
 }
 
-h2 
-{
+h2 {
   font-size: 36px;
   font-weight: 600;
   margin: 0 0 6px;
-  color: rgb(249, 249, 249);
+  color: #388e3c; /* Darker green for titles */
 }
 
-h3 
-{
-  color: rgb(255 255 255 / 50%);
+h3 {
+  color: #555;
   margin: 0 0 40px;
   font-weight: 500;
   font-size: 16px;
 }
 
-html, body {
-  height: 100%;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
+.redirect-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
-body {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; 
+.redirect-login div h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #fff;
 }
 
+.redirect-login div h3 span {
+  color: #cddc39; /* Lime green highlight */
+  font-weight: 700;
+}
 
-* {
-  box-sizing: border-box;
+.redirect-login .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  height: 50px;
+  width: 160px;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  font-weight: 700;
+  transition: background 0.3s ease;
+}
+
+.redirect-login .btn:hover {
+  background-color: #cddc39;
+  border-color: #cddc39;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .outer-box {
+    flex-direction: column-reverse; /* Puts image on top on mobile */
+    height: auto;
+  }
+  .welcome-text, .main {
+    width: 100%;
+  }
+  .welcome-text {
+      height: 350px;
+  }
+  .main {
+      padding: 20px 0;
+  }
 }

@@ -4,26 +4,39 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <header>
-      <div class="nav-right">
-        <a href="/signup" class="btn">Sign Up</a>
-        <a href="/login" class="btn">Login</a>
+   <header>
+      <div class="logo">EMart</div>
+      <div class="logo-image">
       </div>
     </header>
-    <div class="main">
-    <div class="card">
-      <h2>Sign Up</h2>
-      <h3>Enter your credentials</h3>
-      <form action="/register" method="POST">
-        <input type="email" placeholder="Email" class="control" name="username">
-        <input type="password"  placeholder="Password" class="control" name="password">
-        <button type="submit" class="control btn btn-dark">Register</button>
-        <% if (message) { %>
-        <p style="color: green;"><%= message %></p>
-        <% } %>
 
-      </form>
+    <div class="outer-box">
+      <div class="main">
+        <div class="card">
+        <h2>Sign Up</h2>
+        <h3>Enter your credentials</h3>
+        <form action="/register" method="POST">
+          <input type="email" placeholder="Email" class="control" name="username">
+          <input type="password"  placeholder="Password" class="control" name="password">
+          <button type="submit" class="control btn btn-dark">Register</button>
+          <% if (message) { %>
+          <p style="color: green;"><%= message %></p>
+          <% } %>
+        </form>
+      </div>
+      </div>
+      <div class="welcome-text">
+        <div>
+          <div class="greet"><h2><span>Hey</span> there!</h2></div>
+        <div class="garbage-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus nihil, iste fuga eius voluptatem tenetur quod pariatur velit saepe. Eveniet, minus temporibus. Unde distinctio deserunt consequatur odio eum natus reiciendis.
+        Possimus recusandae a rem libero quod quae, ea ut molestias voluptates ratione aperiam accusamus aspernatur doloribus. Alias, dicta a similique quaerat, est possimus minus aperiam adipisci harum laborum, maiores voluptatum!</div>
+        <div class="redirect-login">
+          <div><h3><span>Already a User?</span> Try Logging in:)</h3></div>
+        <a href="/login" class="btn">Login</a>
+      </div>
+        </div>
+      </div>
     </div>
-    </div>
+
   </body>
 </html>
