@@ -35,14 +35,13 @@
         <div id="image-container">
           <img src="/images/<%= product.name%>.jpg" alt="<%= product.name %>" class="product-image">
         </div>
-        <div>Stock: <span class="stock"><%= product.stock %></span></div>
-        <div class="expiry"><%= product.expiry %></div>
         <div class="product-name"><%= product.name %></div>
         <div class="product-description"><%= product.description %>
         </div>
         <div class="product-price-and-quantity">
           <div class="product-price-container">
-            <div><span class="product-price" id="priceDisplay-<%= product.id %>">₹<%= product.price %></span></div>
+
+            <div><span class="product-price" id="priceDisplay-<%= product.id %>">₹<%= product.price %>     </span><span class="light-text">  <%= product.qty %></span></div>
           </div>
           <div class="product-quantity">
             <button type="button" class="decrease" data-id="<%= product.id %>">-</button>
@@ -50,6 +49,8 @@
             <button type="button" class="increase" data-id="<%= product.id %>">+</button>
           </div>
         </div>
+          <div class="fade-text">Stock: <span class="stock fade-text"><%= product.stock %></span></div>
+        <div class="expiry fade-text"><%= product.expiry %></div>
         <input type="hidden" name="productId" value="<%= product.id %>">
         <input type="hidden" name="quantity" id="quantityInput-<%= product.id %>" value="1">
         <div class="add-to-cart-button">
