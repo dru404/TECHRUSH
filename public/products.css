@@ -4,11 +4,21 @@
   padding-right: 10px;
   display: grid;
   justify-items: center;
-  grid-template-columns: repeat(2 , 1fr);
+  grid-template-columns: 1fr;
   row-gap: 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 600px){
+  .products-grid {
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 110px;
+    padding-left: 50px;
+    padding-right: 50px;
+    column-gap: 2rem;    
+  }
+}
+
+@media (min-width:600px) and (max-width: 768px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
     padding-left: 50px;
@@ -17,7 +27,7 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1110px) {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
     padding-left: 100px;
@@ -149,5 +159,5 @@
 
 .fade-text{
   color: grey;
-  font-size: x-small;
+  font-size: medium;
 }
