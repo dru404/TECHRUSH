@@ -6,17 +6,26 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+body
+{
+  background-image: url('Background/1.png');
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 .questions
 {
-  background-color: grey;
+  background-color:rgb(235, 235, 235);
   padding: 12px 15px;
   font-size: 20px;
-  border: 3px solid black;
+  border: 5px solid;
+  border-image: linear-gradient(to bottom, darkgreen, rgb(95, 191, 95));
+  border-image-slice: 1;
   border-radius: 10px;
   cursor: pointer;
   position: relative;
   margin-bottom: 10px;
-  color: white;
+  font-weight: 700;
 }
 
 .questions img
@@ -37,14 +46,17 @@
 .answers
 {
   display: none;
-  background-color: rgb(219, 219, 219);
+  background-image: linear-gradient(to bottom, rgb(235,235,235), rgb(255,255,255));
   padding: 12px 15px;
   font-size: 20px;
-  border-bottom: 3px solid black;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
+  border-bottom: 5px solid rgb(95, 191, 95);
+  border-left: 5px solid rgb(95, 191, 95);
+  border-right: 5px solid rgb(95, 191, 95);/*
   border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 10px; */
+  /* border: 5px solid; */
+  /* border-image: linear-gradient(to bottom, darkgreen, rgb(95, 191, 95)); */
+  border-image-slice: 1;
   overflow-wrap: anywhere;
   margin-bottom: 10px;
 }
